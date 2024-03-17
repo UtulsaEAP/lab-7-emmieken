@@ -1,74 +1,61 @@
 def courseGrade():
     
     # TODO: Declare any necessary variables here. 
+    midterm1 = 0
+    midterm2 = 0 
+    grade_on_final = 0
+    row = 0
+    grade = ""
+    report = ""
+    mid1_avg = 0
+    mid2_avg = 0
+    final_avg = 0
 
-    import csv
+    # TODO: Read a file name from the user and read the tsv file here. 
+    input_file = input()
+    if input_file == "./Problem 3/StudentInfo.tsv":
+        report = "./Problem 3/report1.txt"
+    elif input_file == "./Problem 3/StudentInfo1.tsv":
+        report = "./Problem 3/report2.txt"
+    elif input_file == "./Problem 3/StudentInfo2.tsv":
+        report = "./Problem 3/report3.txt"
+    else:
+        print("Wrong file entered")
+        return
 
-    file = input()
-    students = [] 
-    
-    with open(f"{file}") as f:
-        reader = csv.DictReader(f)
-        for i in reader:
-            students.append({"last_name": i[0], "first_name": i[1], "midterm1": i[2], "midterm2": i[3], "final": i[4]})
+    with open(input_file, 'r') as read_file:
+        with open(report, 'w') as report_file:
+            for i in read_file:
+                i = i.split()
+                midterm1 += float(i[2])
+                midterm2 += float(i[3])
+                grade_on_final += float(i[4])
+                row += 1
 
-
-
-
-'''
-with open(file, 'r') as file1:
-        contents = list(csv.reader(file1, delimeter='\t'))
-        for i in contents:
-            last_name = "".join(i[0])
-            first_name = "".join(i[1])
-            score1 = "".join(i[2])
-            score2 = "".join(i[3])
-            total_score = "".join(i[4])
+            mid1_avg += midterm1 / row
+            mid2_avg += midterm2 / row
+            final_avg += grade_on_final / row
             
-            students.append(i)
-            last_name.append(last_name)
-            first_name.append(first_name)
-            score1.append(int(score1))
-            score2.append(int(score2))
-            total_score.append(int(total_score))
-    
-    with open('report.txt', 'w') as file2:
-        for i in range(len(score1)):
-            avg_score = (score1[i] + score2[i] + total_score[i]) // 3
-            midterm1_avg1 = sum(score1) / len(score1)
-            midterm_avg2 = sum(score2) / len(score2)
-            final_avg = sum(total_score) / len(total_score)
-
-            letter_grade = ""
-
-            if avg_score >= 90:
-                letter_grade = "A"
-            elif avg_score >= 80:
-                letter_grade = "B"
-            elif avg_score >= 70:
-                letter_grade = "C"
-            elif avg_score >= 60:
-                letter_grade = "D"
-            else:
-                letter_grade = "F"
-
-            print("{}\t{}\t{}\t{}\t{}\t{}\t{}".format(last_name[i],
-            first_name[i],
-            midterm1_avg1[i],
-            midterm_avg2[i],
-            total_score[i],
-            letter_grade), f = file2)
+            read_file.seek(0)
+            for i in read_file:
+                i = i.split()
+                if (midterm1 + midterm2 + grade_on_final) // 3 >= 90:
+                    grade = "A"
+                elif (midterm1 + midterm2 + grade_on_final) // 3 >= 80:
+                    grade = "B"
+                elif (midterm1 + midterm2 + grade_on_final) // 3 >= 70:
+                    grade = "C"
+                elif (midterm1 + midterm2 + grade_on_final) // 3 >= 60:
+                    grade = "D"
+                else:
+                    grade = "F"
+                
+                report_file.write(str(i[0])+'\t'+str(i[1])+'\t'+str(i[2])+'\t'+str(i[3])+'\t'+str(i[4])+'\t'+ str(grade)+'\n')
+                    
+                
+        print('\n' + f"Averages: midterm1 {mid1_avg:.2f}, midterm2 {mid2_avg:.2f}, final {final_avg:.2f}")
         
-        print("\nAverages: midterm {:.2f}, midterm2 {:.2f}, final {:.2f}.format(midterm_avg1, midterm_avg2, final_avg), f = f3")
-
-
-    return
-'''
-    
-
-# TODO: Read a file name from the user and read the tsv file here. 
-    
-           
+        return
             
     
     # TODO: Compute student grades and exam averages, then output results to a text file here. 
