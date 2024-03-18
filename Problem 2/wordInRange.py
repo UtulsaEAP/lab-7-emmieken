@@ -1,3 +1,8 @@
+'''
+Name: Emmie Kennemer
+Time: Friday at 3
+'''
+
 def wordInRange():
     #Type your code here
     file_input = input()
